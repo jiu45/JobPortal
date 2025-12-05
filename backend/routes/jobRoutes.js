@@ -9,7 +9,7 @@ const {
     toggleJobClose,
     getJobsEmployer
 } = require("../controllers/jobController");
-const { protect } = require("../middleware/authMiddleware");
+const { protect } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 

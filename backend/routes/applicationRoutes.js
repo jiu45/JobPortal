@@ -6,7 +6,7 @@ const {
     getApplicationById,
     updateStatus,
 } = require('../controllers/applicationController');
-const { protect } = require('../middleware/authMiddleware');
+const { protect } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
