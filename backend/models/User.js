@@ -20,11 +20,12 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true }); 
 
 //Encrypt password before saving
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) { return next(); }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
+// middleware to hash password before saving
+userSchema.pre("save", async function () { // 1. Remove 'next' here
+  if (!this.isModified("password")) return; // 2. Remove 'next()' here, just return
+  
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 //Match user entered password to hashed password in database
