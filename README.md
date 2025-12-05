@@ -11,11 +11,13 @@
 "scripts" : { "start": "node server.js", "dev": "nodemon server.js"}
 
 
-5.Run: npm run dev
+5.Create your own .env file in uploads folder
 
 
-6.Get JWT_SECRET:
+6.Get SECRET_KEY:
 
 nvm use node
 
 node -e console.log(require('crypto').randomBytes(64).toString('hex'))
+
+7.Run dev: npm run dev
