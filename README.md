@@ -17,4 +17,5 @@
 6.Get JWT_SECRET:
 
 nvm use node
+
 node -e console.log(require('crypto').randomBytes(64).toString('hex'))
