@@ -35,7 +35,10 @@ exports.getMyApplications = async (req, res) => {
         const apps = await Application.find({ applicant: req.user._id }).populate('job', 'title company location type').sort({ createdAt: -1 });
         res.json(apps);
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        console.log("----------------ERROR LOG----------------");
+        console.log(error); // <--- This prints the real reason
+        console.log("-----------------------------------------");
+        res.status(500).json({ message: 'Server Error: ' + error.message });
     }
 }
 
@@ -94,6 +97,9 @@ exports.updateStatus = async (req, res) => {
         res.json({ message: 'Application status updated', status: app.status });
 
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        console.log("----------------ERROR LOG----------------");
+        console.log(error); // <--- This prints the real reason
+        console.log("-----------------------------------------");
+        res.status(500).json({ message: 'Server Error: ' + error.message });
     }
 }

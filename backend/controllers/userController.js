@@ -4,12 +4,13 @@ const User = require('../models/User');
 
 exports.updateProfile = async (req, res) => {
     try {
-        const { name, avatar, companyName, companyDescription, companyLogo, resume } = req.body;
+        const { name, avatar, email, companyName, companyDescription, companyLogo, resume } = req.body;
         const user = await User.findById(req.user._id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
         user.name = name || user.name;
+        user.email = email || user.email;
         user.avatar = avatar || user.avatar;
         user.resume = resume || user.resume;
 

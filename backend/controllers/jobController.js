@@ -13,7 +13,10 @@ exports.createJob = async (req, res) => {
         res.status(201).json(job);
 
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        console.log("----------------ERROR LOG----------------");
+        console.log(error); // <--- This prints the real reason
+        console.log("-----------------------------------------");
+        res.status(500).json({ message: 'Server Error: ' + error.message });
     }
 };
 
