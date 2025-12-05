@@ -1,4 +1,4 @@
-const expresss = require('express');
+const express = require('express');
 
 const {
     updateProfile,
@@ -8,7 +8,7 @@ const {
 
 const { protect } = require('../middlewares/authMiddleware');
 //const upload = require('../middlewares/uploadMiddleware');
-const router = expresss.Router();
+const router = express.Router();
 
 //Protected route to update user profile
 router.put('/profile', protect, updateProfile);
