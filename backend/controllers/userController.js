@@ -19,6 +19,7 @@ exports.updateProfile = async (req, res) => {
             user.companyLogo = companyLogo || user.companyLogo;
         }
         await user.save();
+
         res.json({
             _id: user._id,
             name: user.name,

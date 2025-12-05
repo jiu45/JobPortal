@@ -9,7 +9,7 @@ exports.createJob = async (req, res) => {
             return res.status(403).json({ message: 'Only employers can create job postings' });
         }
 
-        const job = await Job.create({...req.body, employer: req.user._id });
+        const job = await Job.create({...req.body, company: req.user._id });
         res.status(201).json(job);
 
     } catch (error) {
@@ -58,6 +58,7 @@ exports.getJobs = async (req, res) => {
         if (userId) {
             const savedJobs = await SavedJob.find({ jobseeker: userId }).select('job');
             savedJobIds = savedJobs.map(sj => sj.job.toString());
+
             const applications = await Application.find({ applicant: userId }).select('job status');
             applications.forEach(app => {
                 appliedJobsStatusMap[app.job.toString()] = app.status;

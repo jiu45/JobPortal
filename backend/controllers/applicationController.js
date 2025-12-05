@@ -5,22 +5,22 @@ const Job = require('../models/Job');
 //Apply to a job
 exports.applyForJob = async (req, res) => {
      try {
-        const { jobId, resume } = req.body;
+        //const { jobId, resume } = req.body;
 
         if (req.user.role !== 'jobseeker') {
             return res.status(403).json({ message: 'Only jobseekers can apply to jobs' });
         }
 
-        const existingApplication = await Application.findOne({ job: jobId, applicant: req.user._id });
+        const existingApplication = await Application.findOne({ job: req.paramsjobId, applicant: req.user._id });
 
         if (existingApplication) {
             return res.status(400).json({ message: 'You have already applied to this job' });
         }
 
         const application = await Application.create({
-            job: jobId,
+            job: req.params.jobId,
             applicant: req.user._id,
-            resume,
+            resume: req.user.resume,
         });
         res.status(201).json(application);
     } catch (error) {
@@ -32,7 +32,7 @@ exports.applyForJob = async (req, res) => {
 exports.getMyApplications = async (req, res) => {
      try {
         //const { jobId, resume } = req.body;
-        const apps = await Application.find({ applicant: req.user._id }).populate('job').sort({ createdAt: -1 });
+        const apps = await Application.find({ applicant: req.user._id }).populate('job', 'title company location type').sort({ createdAt: -1 });
         res.json(apps);
     } catch (error) {
         res.status(500).json({ message: 'Server Error' });
