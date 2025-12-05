@@ -3,7 +3,7 @@ const Application = require('../models/Application');
 const Job = require('../models/Job');
 
 //Apply to a job
-exports.applyToJob = async (req, res) => {
+exports.applyForJob = async (req, res) => {
      try {
         const { jobId, resume } = req.body;
 
@@ -40,7 +40,7 @@ exports.getMyApplications = async (req, res) => {
 }
 
 
-exports.getApplicantsForJob = async (req, res) => {
+exports.getApplicationsForJob = async (req, res) => {
      try {
         //const { jobId, resume } = req.body;
         const job = await Job.findById(req.params.jobId);
