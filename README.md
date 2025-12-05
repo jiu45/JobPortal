@@ -11,7 +11,7 @@
 "scripts" : { "start": "node server.js", "dev": "nodemon server.js"}
 
 
-5.Create your own .env file in uploads folder
+5.Create your own .env file in backend folder
 
 
 6.Run dev: npm run dev
