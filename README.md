@@ -2,7 +2,7 @@
 
 1.npm init -y
 
-2.npm i express bcryptjs cors dotenv jsonwebtoken mongoose multer
+2.npm i express bcryptjs cors dotenv jsonwebtoken mongoose multer socket.io
 
 3.npm i nodemon --save-dev
 
