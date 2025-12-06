@@ -4,12 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import ProfileDropdown from "./ProfileDropdown";
 
+//=======================================
+import MessageDropdown from "../messages/MessageDropdown";
+import ChatWindow from "../messages/ChatWindow";
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [activeChatUser, setActiveChatUser] = useState(null); // user is opening chat box
 
   // Close profile dropdown when click outside
   useEffect(() => {
@@ -41,7 +45,7 @@ const Navbar = () => {
 
             {/* Right side: icons + auth */}
             <div className="flex items-center space-x-3">
-              {/* Bookmark & Message chỉ hiện khi đã login */}
+              {/* Bookmark & Message only render when logged */}
               {user && (
                 <>
                   {/* Saved jobs */}
@@ -51,6 +55,14 @@ const Navbar = () => {
                   >
                     <Bookmark className="h-5 w-5 text-gray-500" />
                   </button>
+
+                  {/* 🔔 Message dropdown */}
+                  <MessageDropdown
+                    onOpenChat={(conversationUser) => {
+                      // open chat box at bottom right
+                      setActiveChatUser(conversationUser);
+                    }}
+                  />
                 </>
               )}
 
@@ -89,6 +101,13 @@ const Navbar = () => {
         </div>
       </header>
 
+      {/* 💬 Mini chat box same messenger*/}
+      {activeChatUser && (
+        <ChatWindow
+          otherUser={activeChatUser}
+          onClose={() => setActiveChatUser(null)}
+        />
+      )}
     </>
   );
 };

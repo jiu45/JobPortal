@@ -1,4 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
+import { socket } from "../socket";
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -17,6 +18,13 @@ export const AuthProvider = ({children}) => {
     useEffect(() => {
         checkAuthStatus();
 }, []);
+    useEffect(() => {
+    if (user && user._id) {
+      // báo cho backend biết socket này thuộc user nào
+      socket.emit("register", user._id);
+      // console.log("Socket register:", user._id);
+    }
+  }, [user?._id]);
     const checkAuthStatus = async () => {
         try {
             const token = localStorage.getItem("token");

@@ -19,6 +19,7 @@ import ManageJobs from './pages/Employer/ManageJobs'
 import EmployerProfilePage from './pages/Employer/EmployerProfilePage'
 import ProtectedRoute from './routes/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
+import MessagesPage from './pages/Messages/MessagesPage.jsx'
 const App = () => {
   return (
     <AuthProvider>
@@ -33,7 +34,7 @@ const App = () => {
           <Route path="/job/:jobId" element={<JobDetails/>} />
           <Route path="/saved-jobs" element={<SavedJobs/>} />
           <Route path="/profile" element={<UserProfile/>} />
-          
+          <Route path="/messages" element={<MessagesPage />} />
 
           { /*Protected Routes*/}
           <Route element={<ProtectedRoute requiredRole="employer"/>}>

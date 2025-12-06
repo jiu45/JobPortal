@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { NAVIGATION_MENU } from "../../utils/data";
 import e from "cors";
 import ProfileDropdown from "./ProfileDropdown";
+import MessageDropdown from "../messages/MessageDropdown";
+import ChatWindow from "../messages/ChatWindow";
 
 
 const NavigationItem = ({ item, isActive, onClick, isCollapsed }) => {
@@ -35,6 +37,7 @@ const DashboardLayout = ({ activeMenu = "employer-dashboard", children }) => {
   const [activeNavItem, setActiveNavItem] = useState(activeMenu);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeChatUser, setActiveChatUser] = useState(null);
   //Handle responsive behavior
   useEffect(() => {
     const handleResize = () => {
@@ -161,6 +164,12 @@ const DashboardLayout = ({ activeMenu = "employer-dashboard", children }) => {
             </div>
           </div>
           <div className="flex items-center space-x-3">
+            {/* Profile dropdown */}
+            <MessageDropdown
+              onOpenChat={(user) => {
+                setActiveChatUser(user);
+              }}
+            />
             <ProfileDropdown
               isOpen={profileDropdownOpen}
               onToggle = {(e) => {
@@ -181,6 +190,13 @@ const DashboardLayout = ({ activeMenu = "employer-dashboard", children }) => {
           {children}
         </main>
       </div>
+      {/* Chat Window */}
+      {activeChatUser && (
+        <ChatWindow
+          otherUser={activeChatUser}
+          onClose={() => setActiveChatUser(null)}
+        />
+      )}
     </div>
   );
 };
