@@ -19,11 +19,17 @@ export const API_PATHS = {
         UPDATE_JOB: (id) => `/api/jobs/${id}`,
         DELETE_JOB: (id) => `/api/jobs/${id}`,
         GET_JOBS_EMPLOYER: "/api/jobs/get-jobs-employer",
-        TOGGLE_CLOSE:(id) => `/api/jobs/${id}/toggle-closed`,
-
-        SAVE_JOB: (id) => `/api/save-jobs/${id}`,
-        UNSAVE_JOB: (id) => `/api/save-jobs/${id}`,
-        GET_SAVED_JOBS: '/api/save-jobs/my',
+        TOGGLE_CLOSE:(id) => `/api/jobs/${id}/toggle-close`,
+        SAVE_JOB: (id) => `/api/saved-jobs/${id}`,
+        UNSAVE_JOB: (id) => `/api/saved-jobs/${id}`,
+        GET_SAVED_JOBS: '/api/saved-jobs/my',
+    },
+    MESSAGE: {
+        SEND: "/api/messages",
+        GET_CONVERSATION: (userId) => `/api/messages/conversation/${userId}`,
+        GET_UNREAD_COUNT: "/api/messages/unread-count",
+        MARK_READ: (userId) => `/api/messages/mark-read/${userId}`,
+        GET_CONVERSATIONS: "/api/messages/conversations",
     },
     APPLICATIONS: {
         APPLY_TO_JOB: (jobId) => `/api/applications/${jobId}`,
