@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
 import { Briefcase, Building2, LogOut, Menu, X } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { NAVIGATION_MENU } from "../../utils/data";
-import e from "cors";
-import ProfileDropdown from "./ProfileDropdown";
-import MessageDropdown from "../messages/MessageDropdown";
 import ChatWindow from "../messages/ChatWindow";
+import MessageDropdown from "../messages/MessageDropdown";
+import ProfileDropdown from "./ProfileDropdown";
 
 
 const NavigationItem = ({ item, isActive, onClick, isCollapsed }) => {
