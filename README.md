@@ -19,7 +19,7 @@
 
 
 
-//FRONDEND
+//FRONTEND
 
 1.npm install tailwindcss @tailwindcss/vite
 
