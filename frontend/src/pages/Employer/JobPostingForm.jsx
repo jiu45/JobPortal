@@ -179,7 +179,7 @@ const JobPostingForm = () => {
   }
   return (
     <DashboardLayout activeMenu = 'post-job'>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-teal-50/20 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white shadow-xl rounded-2xl p-6">
             <div className="flex items-center justify-between mb-8">
@@ -195,7 +195,7 @@ const JobPostingForm = () => {
                 <button
                   onClick={() => setIsPreview(!isPreview)}
                   disabled = {!isFormValid()}
-                  className="group flex items-center space-x-2 px-6 py-3 text-sm font-medium text-gray-600 hover:text-white bg-white/50 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 border border-gray-200 hover:border-transparent rounded-xl transition-all duration-300 shadow-lg shadow-gray-100 hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="group flex items-center space-x-2 px-6 py-3 text-sm font-medium text-gray-600 hover:text-white bg-white/50 hover:bg-gradient-to-r hover:from-emerald-500 hover:to-emerald-600 border border-gray-200 hover:border-transparent rounded-xl transition-all duration-300 shadow-lg shadow-gray-100 hover:shadow-xl transform hover:-translate-y-0.5"
 
                 >
                   <Eye className="h-4 w-4 transition-transform group-hover:-translate-x-1"/>
@@ -302,7 +302,7 @@ const JobPostingForm = () => {
                       value={formData.salaryMin}
                       onChange={(e)=>
                         handleInputChange("salaryMin",e.target.value)}
-                      className="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 focus:border-blue-500 transition-colors duration-200"
+                      className="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-20 focus:border-emerald-500 transition-colors duration-200"
                     />
                   </div>
                   <div className="relative">
@@ -315,7 +315,7 @@ const JobPostingForm = () => {
                       value={formData.salaryMax}
                       onChange={(e)=>
                         handleInputChange("salaryMax",e.target.value)}
-                      className="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 focus:border-blue-500 transition-colors duration-200"
+                      className="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-20 focus:border-emerald-500 transition-colors duration-200"
                     />
                   </div>
                 </div>
@@ -331,7 +331,7 @@ const JobPostingForm = () => {
                 <button
                   onClick={handleSubmit}
                   disabled = {isSubmitting || !isFormValid()}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed outline-none transition-colors duration-200"
+                  className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-offset-2 focus:ring-emerald-500 disabled:bg-gray-400 disabled:cursor-not-allowed outline-none transition-colors duration-200"
                 >
                   {isSubmitting ? (
                     <>

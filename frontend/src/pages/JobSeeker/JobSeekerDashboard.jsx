@@ -199,7 +199,7 @@ const JobSeekerDashboard = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <Navbar/>
 
       <div className="min-h-screen mt-16">
@@ -253,7 +253,7 @@ const JobSeekerDashboard = () => {
                         onClick={()=>setViewMode('grid')}
                         className={`p-2 rounded-lg transition-colors ${
                           viewMode==='grid' 
-                            ? 'bg-blue-600 text-white shadow-sm' 
+                            ? 'bg-emerald-600 text-white shadow-sm' 
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                           }`}
                       >
@@ -263,7 +263,7 @@ const JobSeekerDashboard = () => {
                         onClick={()=>setViewMode('list')}
                         className={`p-2 rounded-lg transition-colors ${
                           viewMode==='list' 
-                            ? 'bg-blue-600 text-white shadow-sm' 
+                            ? 'bg-emerald-600 text-white shadow-sm' 
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                         }`}
                       >
@@ -288,7 +288,7 @@ const JobSeekerDashboard = () => {
                   </p>
                   <button
                     onClick={clearAllFilters}
-                    className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors"
+                    className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-colors"
                   >
                     Clear All Filters
                     </button>

@@ -92,8 +92,8 @@ const ApplicantProfilePreview = ({
                 className="h-20 w-20 rounded-full object-cover mx-auto"
               />
             ) : (
-              <div className="h-20 w-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto">
-                <span className="text-blue-600 font-semibold text-xl">
+              <div className="h-20 w-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto">
+                <span className="text-emerald-600 font-semibold text-xl">
                   {getInitials(selectedApplicant.applicant.name)}
                 </span>
               </div>
@@ -145,7 +145,7 @@ const ApplicantProfilePreview = ({
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
               <button
                 onClick={handleMessageClick}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 border border-emerald-600 text-emerald-600 font-medium rounded-lg hover:bg-emerald-50 transition-colors"
               >
                 <MessageCircle className="h-4 w-4" />
                 Message Applicant
@@ -157,7 +157,7 @@ const ApplicantProfilePreview = ({
                     selectedApplicant.applicant.resume
                   )
                 }
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors"
               >
                 <Download className="h-4 w-4" />
                 Download Resume
@@ -173,7 +173,7 @@ const ApplicantProfilePreview = ({
                 value={currentStatus}
                 onChange={onChangeStatus}
                 disabled={loading}
-                className="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 {statusOptions.map((status) => (
                   <option key={status} value={status}>

@@ -8,7 +8,7 @@ const Features = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Everything You need to
-            <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               {" "}
               Succeed
             </span>
@@ -27,17 +27,17 @@ const Features = () => {
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 For Job Seekers
               </h3>
-              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto rounded-full"></div>
+              <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-emerald-600 mx-auto rounded-full"></div>
             </div>
 
             <div className="space-y-8">
               {jobSeekerFeatures.map((feature, index) => (
                 <div
                   key={index}
-                  className="group flex items-start space-x-4 p-6 rounded-2xl hover:bg-blue-50 transition-all duration-300 cursor-pointer"
+                  className="group flex items-start space-x-4 p-6 rounded-2xl hover:bg-emerald-50 transition-all duration-300 cursor-pointer"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200">
-                    <feature.icon className="w-6 h-6 text-blue-600" />
+                  <div className="flex-shrink-0 w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center group-hover:bg-emerald-200">
+                    <feature.icon className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
                     <h4 className="text-xl font-semibold text-gray-900 mb-2">
@@ -58,17 +58,17 @@ const Features = () => {
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 For Employers
               </h3>
-              <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-600 mx-auto rounded-full"></div>
+              <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-teal-600 mx-auto rounded-full"></div>
             </div>
 
             <div className="space-y-8">
               {employerFeatures.map((feature, index) => (
                 <div
                   key={index}
-                  className="group flex items-start space-x-4 p-6 rounded-2l hover:bg-purple-50 transition-all duration-300 cursor-pointer"
+                  className="group flex items-start space-x-4 p-6 rounded-2l hover:bg-teal-50 transition-all duration-300 cursor-pointer"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                    <feature.icon className="w-6 h-6 text-purple-600" />
+                  <div className="flex-shrink-0 w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center group-hover:bg-teal-200 transition-colors">
+                    <feature.icon className="w-6 h-6 text-teal-600" />
                   </div>
                   <div>
                     <h4 className="text-xl font-semibold text-gray-900 mb-2">

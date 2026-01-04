@@ -49,7 +49,7 @@ const SavedJobs = () => {
   
   
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <Navbar />
       <div className="container mx-auto pt-24">
         {savedJobList && (
@@ -58,7 +58,7 @@ const SavedJobs = () => {
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => navigate(-1)}
-                  className="group flex items-center space-x-2 px-3.5 py-2.5 text-sm font-medium text-gray-600 hover:text-white bg-white/50 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 border border-gray-200 hover:border-transparent rounded-xl transition-all duration-300 shadow-lg shadow-gray-100 hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="group flex items-center space-x-2 px-3.5 py-2.5 text-sm font-medium text-gray-600 hover:text-white bg-white/50 hover:bg-gradient-to-r hover:from-emerald-500 hover:to-emerald-600 border border-gray-200 hover:border-transparent rounded-xl transition-all duration-300 shadow-lg shadow-gray-100 hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 </button>
@@ -73,7 +73,7 @@ const SavedJobs = () => {
                     onClick={() => setViewMode("grid")}
                     className={`p-2 rounded-lg transition-colors ${
                       viewMode === "grid"
-                        ? "bg-blue-600 text-white shadow-sm"
+                        ? "bg-emerald-600 text-white shadow-sm"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                     }`}
                   >
@@ -83,7 +83,7 @@ const SavedJobs = () => {
                     onClick={() => setViewMode("list")}
                     className={`p-2 rounded-lg transition-colors ${
                       viewMode === "list"
-                        ? "bg-blue-600 text-white shadow-sm"
+                        ? "bg-emerald-600 text-white shadow-sm"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                     }`}
                   >
@@ -108,7 +108,7 @@ const SavedJobs = () => {
                   </p>
                   <button
                     onClick={() => navigate("/find-jobs")}
-                    className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors"
+                    className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-colors"
                   >
                     Browse Jobs
                   </button>

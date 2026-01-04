@@ -128,7 +128,7 @@ const Login = () => {
           <p className="text-gray-600 mb-4">
             You have been successfully logged in.
           </p>
-          <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto"/>
+          <div className="animate-spin w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full mx-auto"/>
           <p className="text-sm text-gray-500 mt-2">Redirecting to your dashboard...</p>
         </motion.div>
       </div>
@@ -163,7 +163,7 @@ const Login = () => {
                 onChange={handleInputChange}
                 className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
                   formState.errors.email ? "border-red-500" : "border-gray-300"
-                } focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                } focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors`}
                 placeholder="Enter your email"
               />
             </div>
@@ -190,7 +190,7 @@ const Login = () => {
                   formState.errors.password
                     ? "border-red-500"
                     : "border-gray-300"
-                }focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                }focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors`}
                 placeholder="Enter your password"
               />
               <button
@@ -230,7 +230,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={formState.loading}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             {formState.loading ? (
               <>
@@ -247,7 +247,7 @@ const Login = () => {
               Don't have an account?{" "}
               <a
                 href="/signup"
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-emerald-600 hover:text-emerald-700 font-medium"
               >
                 Create one here
               </a>

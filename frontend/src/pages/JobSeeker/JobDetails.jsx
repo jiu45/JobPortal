@@ -54,7 +54,7 @@ const JobDetails = () => {
 
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <Navbar />
 
       <div className="container mx-auto pt-24">
@@ -95,7 +95,7 @@ const JobDetails = () => {
                     <StatusBadge status={jobDetails.applicationStatus} /> 
                   ) : (
                     <button 
-                      className="bg-gradient-to-r from-blue-50 to-blue-50 text-sm text-blue-700 hover:text-white px-6 py-2.5 rounded-xl hover:from-blue-500 hover:to-blue-600 transition-all duration-200 font-semibold transform hover:-translate-y-0.5"
+                      className="bg-gradient-to-r from-emerald-50 to-emerald-50 text-sm text-emerald-700 hover:text-white px-6 py-2.5 rounded-xl hover:from-emerald-500 hover:to-emerald-600 transition-all duration-200 font-semibold transform hover:-translate-y-0.5"
                       onClick={applyToJob}
                     >
                       Apply Now
@@ -104,10 +104,10 @@ const JobDetails = () => {
                 </div>
                 {/* Tags */}
                 <div className="flex flex-wrap gap-3">
-                  <span className="px-4 py-2 bg-blue-50 text-sm text-blue-700 font-semibold rounded-full border border-blue-200">
+                  <span className="px-4 py-2 bg-emerald-50 text-sm text-emerald-700 font-semibold rounded-full border border-emerald-200">
                     {jobDetails.category}
                   </span>
-                  <span className="px-4 py-2 bg-purple-50 text-sm text-purple-700 font-semibold rounded-full border border-purple-200">
+                  <span className="px-4 py-2 bg-teal-50 text-sm text-teal-700 font-semibold rounded-full border border-teal-200">
                     {jobDetails.type}
                   </span>
                   <div className="flex items-center space-x-1 px-4 py-2 bg-gray-50 text-sm text-gray-700 font-semibold rounded-full border border-gray-200">
@@ -155,7 +155,7 @@ const JobDetails = () => {
               {/* Job Description */}
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold text-gray-900 flex items-center space-x-3">
-                  <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                  <div className="w-1 h-8 bg-gradient-to-b from-emerald-500 to-teal-600 rounded-full"></div>
                   <span className="text-lg">About This Role</span>
                 </h3>
                 <div className="bg-gray-50 border border-gray-100 rounded-xl p-6">
@@ -167,10 +167,10 @@ const JobDetails = () => {
               {/* Requirements */}
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold text-gray-900 flex items-center space-x-3">
-                  <div className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-600 rounded-full"></div>
+                  <div className="w-1 h-8 bg-gradient-to-b from-teal-500 to-pink-600 rounded-full"></div>
                   <span className="text-lg">What We're Looking For</span>
                 </h3>
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 rounded-xl p-6">
+                <div className="bg-gradient-to-br from-teal-50 to-pink-50 border border-teal-100 rounded-xl p-6">
                   <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
                     {jobDetails.requirements}
                   </div>

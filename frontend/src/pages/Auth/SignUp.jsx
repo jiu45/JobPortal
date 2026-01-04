@@ -166,7 +166,7 @@ const SignUp = () => {
           <p className="text-gray-600 mb-4">
             Welcome to JobPortal! Your account has been successfully created.
           </p>
-          <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto" />
+          <div className="animate-spin w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full mx-auto" />
           <p className="text-sm text-gray-500 mt-2">
             Redirecting to your dashboard...
           </p>
@@ -207,7 +207,7 @@ const SignUp = () => {
                   formState.errors.fullName
                     ? "border-red-500"
                     : "border-gray-300"
-                }focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                }focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors`}
                 placeholder="Enter your full name"
               />
             </div>
@@ -233,7 +233,7 @@ const SignUp = () => {
                 onChange={handleInputChange}
                 className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
                   formState.errors.email ? "border-red-500" : "border-gray-300"
-                }focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                }focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors`}
                 placeholder="Enter your email"
               />
             </div>
@@ -260,7 +260,7 @@ const SignUp = () => {
                   formState.errors.password
                     ? "border-red-500"
                     : "border-gray-300"
-                }focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                }focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors`}
                 placeholder="Create a strong password"
               />
               <button
@@ -340,7 +340,7 @@ const SignUp = () => {
               <button
                 type="button"
                 onClick={()=>handleRoleChange("jobseeker")}
-                className={`p-4 rounded-lg border-2 transition-all ${formData.role==="jobseeker"?"border-blue-500 bg-blue-50 text-blue-700":"border-gray-200 hover:border-gray-300"}`}
+                className={`p-4 rounded-lg border-2 transition-all ${formData.role==="jobseeker"?"border-emerald-500 bg-emerald-50 text-emerald-700":"border-gray-200 hover:border-gray-300"}`}
               >
                 <UserCheck className="w-8 h-8 mx-auto mb-2"/>
                 <div className="font-medium">
@@ -353,7 +353,7 @@ const SignUp = () => {
               <button
                 type="button"
                 onClick={()=>handleRoleChange("employer")}
-                className={`p-4 rounded-lg border-2 transition-all ${formData.role==="employer"?"border-blue-500 bg-blue-50 text-blue-700":"border-gray-200 hover:border-gray-300"}`}
+                className={`p-4 rounded-lg border-2 transition-all ${formData.role==="employer"?"border-emerald-500 bg-emerald-50 text-emerald-700":"border-gray-200 hover:border-gray-300"}`}
               >
                 <Building2 className="w-8 h-8 mx-auto mb-2"/>
                 <div className="font-medium">Employer</div>
@@ -380,7 +380,7 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={formState.loading}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             {formState.loading ?(
               <>
@@ -397,7 +397,7 @@ const SignUp = () => {
               Already have an account?{""}
               <a
                 href="/login"
-                className="text-blue-500 hover:text-blue-800 font-medium"
+                className="text-emerald-500 hover:text-emerald-800 font-medium"
               >
                 Sign in here
               </a>

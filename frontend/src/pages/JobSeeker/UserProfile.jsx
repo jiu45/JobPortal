@@ -172,14 +172,14 @@ const UserProfile = () => {
   }, [formData?.resume]);
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <Navbar />
 
       <div className="min-h-screen bg-gray-50 py-8 px-4 mt-16 lg:m-20">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-6 flex justify-between items-center">
+            <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 px-8 py-6 flex justify-between items-center">
               <h1 className="text-xl font-medium text-white">Profile</h1>
             </div>
 
@@ -206,7 +206,7 @@ const UserProfile = () => {
                       <input
                         type="file"
                         accept="image/*"
-                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-colors"
+                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-colors"
                         onChange={(e) => handleFileChange(e, "avatar")}
                       />
                     </label>
@@ -223,7 +223,7 @@ const UserProfile = () => {
                     value={formData.name}
                     placeholder="Enter your full name"
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                   />
                 </div>
 
@@ -255,7 +255,7 @@ const UserProfile = () => {
                           href={resumeMeta.resumeUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-sm text-blue-600 hover:underline truncate max-w-[520px]"
+                          className="text-sm text-emerald-600 hover:underline truncate max-w-[520px]"
                           title={resumeMeta.rawName}
                         >
                           {resumeMeta.niceName}
@@ -289,7 +289,7 @@ const UserProfile = () => {
                         // cho nhiều loại file resume
                         accept=".pdf,.doc,.docx,.txt,.rtf,.png,.jpg,.jpeg"
                         onChange={(e) => handleFileChange(e, "resume")}
-                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-200 transition-colors"
+                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-200 transition-colors"
                       />
                     </label>
 
@@ -315,7 +315,7 @@ const UserProfile = () => {
 
                 <button
                   onClick={handleSaveChanges}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                  className="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
                   disabled={saving || uploading.avatar || uploading.resume}
                 >
                   {saving ? (
