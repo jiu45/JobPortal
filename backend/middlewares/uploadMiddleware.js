@@ -14,12 +14,22 @@ const storage = multer.diskStorage({
 //File filter
 
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Invalid file type. Only JPEG, PNG and PDF are allowed.'), false);
-    }
+  const allowedTypes = [
+    // images
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+
+    // resume/docs
+    "application/pdf",
+    "application/msword", // .doc
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+    "text/plain", // .txt
+    "application/rtf", // .rtf
+  ];
+
+  if (allowedTypes.includes(file.mimetype)) cb(null, true);
+  else cb(new Error("Invalid file type."), false);
 };
 
 const upload = multer({

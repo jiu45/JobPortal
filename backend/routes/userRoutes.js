@@ -12,7 +12,7 @@ const router = express.Router();
 
 //Protected route to update user profile
 router.put('/profile', protect, updateProfile);
-router.post('/resume', protect, deleteResume);
+router.delete('/resume', protect, deleteResume);
 
 //Public route to get user profile by ID
 router.get('/:id', getPublicProfile);
