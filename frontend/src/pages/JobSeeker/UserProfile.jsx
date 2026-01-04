@@ -1,12 +1,12 @@
+import { File, FileImage, FileText, Save, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Save, X, Trash2, FileText, FileImage, File } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
-import Navbar from "../../components/layout/Navbar";
 import toast from "react-hot-toast";
-import uploadImage from "../../utils/uploadImage";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/layout/Navbar";
+import { useAuth } from "../../context/AuthContext";
+import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
+import uploadImage from "../../utils/uploadImage";
 
 // ===== Helpers =====
 const getFileNameFromUrl = (url = "") => {

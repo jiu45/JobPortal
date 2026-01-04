@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { Search, ArrowRight, Building2, Users, TrendingUp } from "lucide-react";
+import { ArrowRight, Building2, Search, TrendingUp, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {useAuth} from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 const Hero = () => {
   const {user, isAuthenticated} = useAuth();

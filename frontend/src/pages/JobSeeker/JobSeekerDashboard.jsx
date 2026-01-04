@@ -1,16 +1,15 @@
-import {useState, useEffect} from 'react';
-import {Search,Filter, Grid, List, X} from "lucide-react";
-import LoadingSpinner from '../../components/LoadingSpinner';
-import axiosInstance from '../../utils/axiosInstance';
-import { API_PATHS } from '../../utils/apiPaths';
-import { useNavigate } from 'react-router-dom';
+import { Filter, Grid, List, Search, X } from "lucide-react";
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import JobCard from '../../components/Cards/JobCard';
+import Navbar from '../../components/layout/Navbar';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import { useAuth } from '../../context/AuthContext';
-import moment from "moment";
+import { API_PATHS } from '../../utils/apiPaths';
+import axiosInstance from '../../utils/axiosInstance';
 import FilterContent from './components/FilterContent';
 import SearchHeader from './components/SearchHeader';
-import Navbar from '../../components/layout/Navbar';
-import JobCard from '../../components/Cards/JobCard';
 
 const JobSeekerDashboard = () => {
   const {user} = useAuth();

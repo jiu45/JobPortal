@@ -1,23 +1,23 @@
 // src/pages/Employer/ApplicationViewer.jsx
-import { useState, useEffect, useMemo } from "react";
 import {
-  Users,
-  Calendar,
-  MapPin,
+  ArrowLeft,
   Briefcase,
+  Calendar,
   Download,
   Eye,
-  ArrowLeft,
+  MapPin,
+  Users,
 } from "lucide-react";
-import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
-import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import { getInitials } from "../../utils/helper";
-import DashboardLayout from "../../components/layout/DashboardLayout";
-import StatusBadge from "../../components/StatusBadge";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import ApplicantProfilePreview from "../../components/Cards/ApplicantProfilePreview";
+import DashboardLayout from "../../components/layout/DashboardLayout";
 import ChatWindow from "../../components/messages/ChatWindow"; // 👈 thêm
+import StatusBadge from "../../components/StatusBadge";
+import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
+import { getInitials } from "../../utils/helper";
 
 const ApplicationViewer = () => {
   const navigate = useNavigate();

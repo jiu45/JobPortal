@@ -4,14 +4,14 @@ import {
   Grid,
   List,
 } from "lucide-react";
-import {useAuth} from "../../context/AuthContext";
-import axiosInstance from "../../utils/axiosInstance";
-import {useEffect, useState} from "react";
-import { API_PATHS } from "../../utils/apiPaths"; 
-import Navbar from "../../components/layout/Navbar";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import JobCard from "../../components/Cards/JobCard"
+import JobCard from "../../components/Cards/JobCard";
+import Navbar from "../../components/layout/Navbar";
+import { useAuth } from "../../context/AuthContext";
+import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
 
 
 const SavedJobs = () => {

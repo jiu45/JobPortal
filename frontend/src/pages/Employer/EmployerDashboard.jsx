@@ -1,23 +1,20 @@
-import React from 'react'
 import {
-  Plus,
   Briefcase,
-  Users,
   Building2,
-  TrendingUp,
   CheckCircle2,
-  Icon
+  Plus,
+  TrendingUp,
+  Users
 } from "lucide-react";
 import moment from "moment";
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../utils/axiosInstance';
-import {API_PATHS} from '../../utils/apiPaths';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import ApplicantDashboardCard from '../../components/Cards/ApplicantDashboardCard';
+import JobDashboardCard from '../../components/Cards/JobDashboardCard';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import JobDashboardCard from '../../components/Cards/JobDashboardCard';
-import ApplicantDashboardCard from '../../components/Cards/ApplicantDashboardCard';
+import { API_PATHS } from '../../utils/apiPaths';
+import axiosInstance from '../../utils/axiosInstance';
 
 const Card = ({ title, headerAction,subtitle, children, className = "" }) => {
   return (

@@ -1,4 +1,4 @@
-import {Save, X} from 'lucide-react'; 
+import { Save, X } from 'lucide-react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 
 const EditProfileDetails = ({

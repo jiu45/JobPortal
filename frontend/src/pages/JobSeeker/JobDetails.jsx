@@ -1,20 +1,20 @@
 import {
-  MapPin,
-  DollarSign,
   Building2,
   Clock,
+  DollarSign,
+  MapPin,
   Users,
 } from "lucide-react";
 
-import {useAuth} from "../../context/AuthContext";
-import {useParams} from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
-import {useEffect, useState} from "react";
-import { API_PATHS } from "../../utils/apiPaths"; 
-import Navbar from "../../components/layout/Navbar";
 import moment from "moment";
-import StatusBadge from "../../components/StatusBadge";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import Navbar from "../../components/layout/Navbar";
+import StatusBadge from "../../components/StatusBadge";
+import { useAuth } from "../../context/AuthContext";
+import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
 
 const JobDetails = () => {
 

@@ -1,18 +1,18 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Mail,
-  Lock,
+  AlertCircle,
+  CheckCircle,
   Eye,
   EyeOff,
   Loader,
-  AlertCircle,
-  CheckCircle,
+  Lock,
+  Mail,
 } from "lucide-react";
-import { validateEmail } from "../../utils/helper";
-import { API_PATHS } from "../../utils/apiPaths";
+import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
+import { validateEmail } from "../../utils/helper";
 
 const Login = () => {
   const {login} = useAuth();

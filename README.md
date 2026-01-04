@@ -23,6 +23,6 @@
 
 1.npm install tailwindcss @tailwindcss/vite
 
-2.npm install react-router-dom react-hot-toast framer-motion lucide-react moment socket.io-client
+2.npm install react-router-dom react-hot-toast framer-motion lucide-react moment socket.io-client jwt-decode
 
 3.cd frontend ---- npm run dev

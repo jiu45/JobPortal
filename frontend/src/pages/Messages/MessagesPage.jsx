@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
 import DashboardLayout from "../../components/layout/DashboardLayout";
+import Navbar from "../../components/layout/Navbar";
 import ConversationList from "../../components/messages/ConservationList";
 import MessagesChatPanel from "../../components/messages/MessagesChatPanel";
-import Navbar from "../../components/layout/Navbar";
+import { useAuth } from "../../context/AuthContext";
 
 const MessagesContent = () => {
   const [selectedUser, setSelectedUser] = useState(null);

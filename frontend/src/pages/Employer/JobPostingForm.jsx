@@ -1,23 +1,23 @@
-import DashboardLayout from '../../components/layout/DashboardLayout';
-import {useState , useEffect} from 'react';
 import {
   AlertCircle,
-  MapPin,
-  DollarSign,
   Briefcase,
-  Users,
+  DollarSign,
   Eye,
+  MapPin,
   Send,
+  Users,
 } from "lucide-react";
-import {API_PATHS} from "../../utils/apiPaths";
-import { useLocation, useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
-import { CATEGORIES, JOB_TYPE } from '../../utils/data';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useLocation, useNavigate } from "react-router-dom";
+import JobPostingPreview from '../../components/Cards/JobPostingPreview';
 import InputField from '../../components/Input/InputField';
 import SelectField from '../../components/Input/SelectField';
 import TextAreaField from '../../components/Input/TextAreaField';
-import JobPostingPreview from '../../components/Cards/JobPostingPreview';
+import DashboardLayout from '../../components/layout/DashboardLayout';
+import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
+import { CATEGORIES, JOB_TYPE } from '../../utils/data';
 
 
 const JobPostingForm = () => {

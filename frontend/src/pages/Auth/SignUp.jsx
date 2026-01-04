@@ -1,23 +1,23 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  User,
-  Mail,
-  Lock,
-  Upload,
-  Eye,
-  EyeOff,
-  UserCheck,
+  AlertCircle,
   Building2,
   CheckCircle,
-  AlertCircle,
+  Eye,
+  EyeOff,
   Loader,
+  Lock,
+  Mail,
+  Upload,
+  User,
+  UserCheck,
 } from "lucide-react";
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
 import { validateAvatar, validateEmail, validatePassword } from "../../utils/helper";
 import uploadImage from "../../utils/uploadImage";
-import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
-import { useAuth } from "../../context/AuthContext";
 const SignUp = () => {
   const {login} = useAuth();
 
