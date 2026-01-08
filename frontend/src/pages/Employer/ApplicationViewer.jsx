@@ -7,6 +7,8 @@ import {
   Eye,
   MapPin,
   Users,
+  TrendingUp,
+  ArrowUpDown,
 } from "lucide-react";
 import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
@@ -27,6 +29,8 @@ const ApplicationViewer = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState(null);
+  const [sortBy, setSortBy] = useState("date"); // "date", "score", "name"
+  const [sortOrder, setSortOrder] = useState("desc"); // "asc", "desc"
 
   // 👇 state quản lý chat window
   const [chatUser, setChatUser] = useState(null);
@@ -55,12 +59,30 @@ const ApplicationViewer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobId]);
 
-  // Group applications by job
+  // Group applications by job with sorting
   const applicationsByJob = useMemo(() => {
     const filtered = applications.filter(
       (app) => app.job?.title?.toLowerCase() // filter chỉ để đảm bảo job tồn tại
     );
-    return filtered.reduce((acc, app) => {
+
+    // Sort based on current sort settings
+    const sorted = [...filtered].sort((a, b) => {
+      let comparison = 0;
+
+      if (sortBy === "score") {
+        const scoreA = a.matchScore?.score || 0;
+        const scoreB = b.matchScore?.score || 0;
+        comparison = scoreB - scoreA; // Higher score first
+      } else if (sortBy === "name") {
+        comparison = (a.applicant?.name || "").localeCompare(b.applicant?.name || "");
+      } else { // date
+        comparison = new Date(b.createdAt) - new Date(a.createdAt);
+      }
+
+      return sortOrder === "asc" ? -comparison : comparison;
+    });
+
+    return sorted.reduce((acc, app) => {
       const id = app.job._id;
       if (!acc[id]) {
         acc[id] = {
@@ -71,7 +93,7 @@ const ApplicationViewer = () => {
       acc[id].applications.push(app);
       return acc;
     }, {});
-  }, [applications]);
+  }, [applications, sortBy, sortOrder]);
 
   const handleDownloadResume = (resumeUrl) => {
     if (!resumeUrl) return;

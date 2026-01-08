@@ -2,7 +2,8 @@
 import { io } from "socket.io-client";
 
 export const socket = io(
-  import.meta.env.VITE_API_URL || "http://localhost:8000",
+  // Use relative path so it goes through Vite proxy (which goes to backend)
+  // or default to window.location if in production
   {
     transports: ["websocket"],
     withCredentials: true,

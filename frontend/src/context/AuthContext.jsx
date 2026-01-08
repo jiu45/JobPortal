@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   const logout = ({
     redirect = true,
     toastMsg = "",
-    redirectTo = "/", 
+    redirectTo = "/",
   } = {}) => {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
@@ -80,6 +80,13 @@ export const AuthProvider = ({ children }) => {
 
       // token ok -> set user
       const userData = JSON.parse(userStr);
+      // Clean up avatar URL if it contains localhost:8000
+      if (userData.avatar && userData.avatar.includes("localhost:8000/uploads/")) {
+        userData.avatar = userData.avatar.replace(
+          /https?:\/\/[^/]+\/uploads\//,
+          "/uploads/"
+        );
+      }
       setUser(userData);
       setIsAuthenticated(true);
     } catch (error) {
@@ -91,6 +98,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = (userData, token) => {
+    // Clean up avatar URL if it contains localhost:8000
+    if (userData.avatar && userData.avatar.includes("localhost:8000/uploads/")) {
+      userData.avatar = userData.avatar.replace(
+        /https?:\/\/[^/]+\/uploads\//,
+        "/uploads/"
+      );
+    }
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);

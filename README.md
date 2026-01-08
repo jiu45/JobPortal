@@ -2,7 +2,7 @@
 
 1.npm init -y
 
-2.npm i express bcryptjs cors dotenv jsonwebtoken mongoose multer socket.io
+2.npm i express bcryptjs cors dotenv jsonwebtoken mongoose multer socket.io pdf-parse@1.1.1 groq-sdk
 
 3.npm i nodemon --save-dev
 
@@ -23,6 +23,6 @@
 
 1.npm install tailwindcss @tailwindcss/vite
 
-2.npm install react-router-dom react-hot-toast framer-motion lucide-react moment socket.io-client jwt-decode
+2.npm install react-router-dom react-hot-toast framer-motion lucide-react moment socket.io-client jwt-decode axios
 
 3.cd frontend ---- npm run dev

@@ -10,9 +10,11 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import JobMatchScore from "../../components/JobMatchScore";
 import Navbar from "../../components/layout/Navbar";
 import StatusBadge from "../../components/StatusBadge";
 import { useAuth } from "../../context/AuthContext";
+import ApplicationForm from "./ApplicationForm";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
 
@@ -21,36 +23,38 @@ const JobDetails = () => {
   const { user } = useAuth();
   const { jobId } = useParams();
   const [jobDetails, setJobDetails] = useState(null);
-  const getJobDetailsById = async()=>{
-    try{
-      const response = await axiosInstance.get(API_PATHS.JOBS.GET_JOB_BY_ID(jobId),{
-        params: {userId: user?._id||null},
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
+
+  const getJobDetailsById = async () => {
+    try {
+      const response = await axiosInstance.get(API_PATHS.JOBS.GET_JOB_BY_ID(jobId), {
+        params: { userId: user?._id || null },
       });
       setJobDetails(response.data);
-    }catch(error){
+    } catch (error) {
       console.error("Error fetching job details:", error);
       toast.error("Failed to fetch job details.");
     }
   };
 
-  const applyToJob = async()=>{
-    try{
-      if(jobId){
-      await axiosInstance.post(API_PATHS.APPLICATIONS.APPLY_TO_JOB(jobId));
-      toast.success("Successfully applied to the job!");
+  const applyToJob = async () => {
+    try {
+      if (jobId) {
+        await axiosInstance.post(API_PATHS.APPLICATIONS.APPLY_TO_JOB(jobId));
+        toast.success("Successfully applied to the job!");
       }
       getJobDetailsById();
-    }catch(error){
+    } catch (error) {
       console.error("Error applying to job:", error);
       const errorMsg = error.response?.data?.message || "Failed to apply to the job.";
-      toast.error(errorMsg||"Failed to apply to the job.");
+      toast.error(errorMsg || "Failed to apply to the job.");
     }
   };
-  useEffect(()=>{
-    if(jobId && user){
+  useEffect(() => {
+    if (jobId && user) {
       getJobDetailsById();
     }
-  },[jobId,user]);
+  }, [jobId, user]);
 
 
   return (
@@ -65,13 +69,13 @@ const JobDetails = () => {
             <div className="relative px-6 pb-8 border-b border-gray-100">
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
-                  {jobDetails?.company?.companyLogo ?(
+                  {jobDetails?.company?.companyLogo ? (
                     <img
                       src={jobDetails.company.companyLogo}
                       alt="Company Logo"
                       className="h-20 w-20 object-cover rounded-2xl border-4 border-white/20 shadow-lg"
                     />
-                  ):(
+                  ) : (
                     <div className="h-20 w-20 bg-gray-50 border-2 border-gray-200 rounded-2xl flex items-center justify-center">
                       <Building2 className="h-8 w-8 text-gray-400" />
                     </div>
@@ -92,11 +96,11 @@ const JobDetails = () => {
                   </div>
 
                   {jobDetails?.applicationStatus ? (
-                    <StatusBadge status={jobDetails.applicationStatus} /> 
+                    <StatusBadge status={jobDetails.applicationStatus} />
                   ) : (
-                    <button 
+                    <button
                       className="bg-gradient-to-r from-emerald-50 to-emerald-50 text-sm text-emerald-700 hover:text-white px-6 py-2.5 rounded-xl hover:from-emerald-500 hover:to-emerald-600 transition-all duration-200 font-semibold transform hover:-translate-y-0.5"
-                      onClick={applyToJob}
+                      onClick={() => setShowApplicationForm(true)}
                     >
                       Apply Now
                     </button>
@@ -120,9 +124,14 @@ const JobDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            {/* Content Section */}
-            <div className="px-0 pb-8 space-y-8">
+
+              {/* Job Match Score - Only show if user has skills */}
+              {user && user.role === "jobseeker" && (
+                <div className="px-6">
+                  <JobMatchScore jobId={jobId} />
+                </div>
+              )}
+
               {/* Salary Section */}
               <div className="relative overflow-hidden bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 p-6 rounded-2xl">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/10 to-teal-400/10 rounded-full -translate-y-16 translate-x-16"></div>
@@ -130,7 +139,7 @@ const JobDetails = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
-                        <DollarSign className="h-6 w-6 text-white"/>
+                        <DollarSign className="h-6 w-6 text-white" />
                       </div>
                       <div>
                         <h3 className="text-sm font-semibold text-gray-900 mb-1">
@@ -145,7 +154,7 @@ const JobDetails = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
-                      <Users className="h-4 w-4"/>
+                      <Users className="h-4 w-4" />
                       <span>Competitive</span>
                     </div>
                   </div>
@@ -181,6 +190,18 @@ const JobDetails = () => {
           </div>
         )}
       </div>
+
+      {/* Application Form Modal */}
+      {showApplicationForm && jobDetails && (
+        <ApplicationForm
+          job={jobDetails}
+          onClose={() => setShowApplicationForm(false)}
+          onSuccess={() => {
+            getJobDetailsById();
+            setShowApplicationForm(false);
+          }}
+        />
+      )}
     </div>
   )
 }

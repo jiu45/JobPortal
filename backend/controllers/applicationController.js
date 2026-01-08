@@ -4,14 +4,14 @@ const Job = require('../models/Job');
 
 //Apply to a job
 exports.applyForJob = async (req, res) => {
-     try {
-        //const { jobId, resume } = req.body;
+    try {
+        const { coverLetter, customData, matchScore } = req.body;
 
         if (req.user.role !== 'jobseeker') {
             return res.status(403).json({ message: 'Only jobseekers can apply to jobs' });
         }
 
-        const existingApplication = await Application.findOne({ job: req.paramsjobId, applicant: req.user._id });
+        const existingApplication = await Application.findOne({ job: req.params.jobId, applicant: req.user._id });
 
         if (existingApplication) {
             return res.status(400).json({ message: 'You have already applied to this job' });
@@ -21,16 +21,20 @@ exports.applyForJob = async (req, res) => {
             job: req.params.jobId,
             applicant: req.user._id,
             resume: req.user.resume,
+            coverLetter: coverLetter || '',
+            customData: customData || {},
+            matchScore: matchScore || {},
         });
         res.status(201).json(application);
     } catch (error) {
+        console.error("Error applying to job:", error);
         res.status(500).json({ message: 'Server Error' });
     }
 }
 
 
 exports.getMyApplications = async (req, res) => {
-     try {
+    try {
         //const { jobId, resume } = req.body;
         const apps = await Application.find({ applicant: req.user._id }).populate('job', 'title company location type').sort({ createdAt: -1 });
         res.json(apps);
@@ -44,7 +48,7 @@ exports.getMyApplications = async (req, res) => {
 
 
 exports.getApplicationsForJob = async (req, res) => {
-     try {
+    try {
         //const { jobId, resume } = req.body;
         const job = await Job.findById(req.params.jobId);
 
@@ -61,7 +65,7 @@ exports.getApplicationsForJob = async (req, res) => {
 
 
 exports.getApplicationById = async (req, res) => {
-     try {
+    try {
         //const { jobId, resume } = req.body;
         const app = await Application.findById(req.params.id).populate('job', 'title').populate('applicant', 'name email avatar resume');
 
@@ -83,7 +87,7 @@ exports.getApplicationById = async (req, res) => {
 
 
 exports.updateStatus = async (req, res) => {
-     try {
+    try {
         //const { jobId, resume } = req.body;
         const { status } = req.body;
         const app = await Application.findById(req.params.id).populate('job');

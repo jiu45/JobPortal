@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Briefcase, Bookmark } from "lucide-react";
+import { Briefcase, Bookmark, FileText } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import ProfileDropdown from "./ProfileDropdown";
@@ -48,6 +48,17 @@ const Navbar = () => {
               {/* Bookmark & Message only render when logged */}
               {user && (
                 <>
+                  {/* My Applications - Only for jobseekers */}
+                  {user.role === "jobseeker" && (
+                    <button
+                      className="p-2 rounded-xl hover:bg-gray-100 transition-colors duration-200 relative group"
+                      onClick={() => navigate("/my-applications")}
+                      title="My Applications"
+                    >
+                      <FileText className="h-5 w-5 text-gray-500 group-hover:text-emerald-600" />
+                    </button>
+                  )}
+
                   {/* Saved jobs */}
                   <button
                     className="p-2 rounded-xl hover:bg-gray-100 transition-colors duration-200 relative"

@@ -12,6 +12,7 @@ const applicationRoutes = require("./routes/applicationRoutes");
 const savedJobsRoutes = require("./routes/savedJobsRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 const { initSocket } = require("./socket");
 
 const app = express();
@@ -42,6 +43,7 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/saved-jobs", savedJobsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/ai", aiRoutes);
 
 //Serve uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {}));
@@ -55,5 +57,5 @@ const server = http.createServer(app);
 initSocket(server);
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

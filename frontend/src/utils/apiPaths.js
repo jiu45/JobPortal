@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:8000';
+export const BASE_URL = '';
 
 export const API_PATHS = {
     AUTH: {
@@ -6,20 +6,20 @@ export const API_PATHS = {
         LOGIN: "/api/auth/login",
         GET_PROFILE: "/api/auth/profile",
         UPDATE_PROFILE: "/api/user/profile",
-        DELETE_RESUME : "/api/user/resume",
+        DELETE_RESUME: "/api/user/resume",
     },
     DASHBOARD: {
         OVERVIEW: "/api/analytics/overview",
     },
     JOBS: {
         GET_JOBS: "/api/jobs",
-        GET_ALL_JOBS:"/api/jobs",
+        GET_ALL_JOBS: "/api/jobs",
         GET_JOB_BY_ID: (id) => `/api/jobs/${id}`,
         POST_JOB: "/api/jobs",
         UPDATE_JOB: (id) => `/api/jobs/${id}`,
         DELETE_JOB: (id) => `/api/jobs/${id}`,
         GET_JOBS_EMPLOYER: "/api/jobs/get-jobs-employer",
-        TOGGLE_CLOSE:(id) => `/api/jobs/${id}/toggle-close`,
+        TOGGLE_CLOSE: (id) => `/api/jobs/${id}/toggle-close`,
         SAVE_JOB: (id) => `/api/saved-jobs/${id}`,
         UNSAVE_JOB: (id) => `/api/saved-jobs/${id}`,
         GET_SAVED_JOBS: '/api/saved-jobs/my',
@@ -33,10 +33,16 @@ export const API_PATHS = {
     },
     APPLICATIONS: {
         APPLY_TO_JOB: (jobId) => `/api/applications/${jobId}`,
-        GET_ALL_APPLICATIONS :(id) => `/api/applications/job/${id}`,
+        GET_ALL_APPLICATIONS: (id) => `/api/applications/job/${id}`,
         UPDATE_STATUS: (id) => `/api/applications/${id}/status`,
     },
     IMAGE: {
         UPLOAD_IMAGE: "/api/auth/upload-image", //Upload profile picture
+    },
+    AI: {
+        PARSE_RESUME: "/api/ai/parse-resume",
+        GENERATE_COVER_LETTER: "/api/ai/generate-cover-letter",
+        MATCH_SCORE: "/api/ai/match-score",
+        ADVANCED_MATCH: "/api/ai/advanced-match",
     }
 }

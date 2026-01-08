@@ -4,15 +4,17 @@ const {
     updateProfile,
     deleteResume,
     getPublicProfile,
+    uploadResume,
 } = require('../controllers/userController');
 
 const { protect } = require('../middlewares/authMiddleware');
-//const upload = require('../middlewares/uploadMiddleware');
+const upload = require('../middlewares/uploadMiddleware');
 const router = express.Router();
 
 //Protected route to update user profile
 router.put('/profile', protect, updateProfile);
 router.delete('/resume', protect, deleteResume);
+router.post('/upload-resume', protect, upload.single('resume'), uploadResume);
 
 //Public route to get user profile by ID
 router.get('/:id', getPublicProfile);

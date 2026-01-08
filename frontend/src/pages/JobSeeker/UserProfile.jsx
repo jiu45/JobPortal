@@ -1,8 +1,9 @@
-import { File, FileImage, FileText, Save, Trash2, X } from "lucide-react";
+import { File, FileImage, FileText, Save, Trash2, X, Briefcase, GraduationCap } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
+import ResumeUploadSection from "../../components/ResumeUploadSection";
 import { useAuth } from "../../context/AuthContext";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
@@ -37,6 +38,10 @@ const UserProfile = () => {
     email: user?.email || "",
     avatar: user?.avatar || "",
     resume: user?.resume || "",
+    bio: user?.bio || "",
+    skills: user?.skills || [],
+    experience: user?.experience || [],
+    education: user?.education || [],
   });
 
   const [formData, setFormData] = useState({ ...profileData });
@@ -142,11 +147,79 @@ const UserProfile = () => {
       console.error("Error deleting resume:", error);
       toast.error(
         error.response?.data?.message ||
-          "Failed to delete resume. Please try again."
+        "Failed to delete resume. Please try again."
       );
     } finally {
       setSaving(false);
     }
+  };
+
+  // Handle AI-parsed resume data
+  const handleParsedData = (parsedData) => {
+    const updatedData = {
+      ...formData,
+      bio: parsedData.bio || formData.bio,
+      skills: parsedData.skills || formData.skills,
+      experience: parsedData.experience || formData.experience,
+      education: parsedData.education || formData.education,
+    };
+    setFormData(updatedData);
+    toast.success("Resume parsed! Review the auto-filled data below.");
+  };
+
+  // Handle skill management
+  const [skillInput, setSkillInput] = useState("");
+
+  // Normalize skill for comparison (lowercase, remove version numbers, trim)
+  const normalizeSkill = (skill) => {
+    return skill
+      .toLowerCase()
+      .trim()
+      .replace(/[\d.]+$/, '') // Remove trailing version numbers (e.g., python3 -> python)
+      .replace(/\s+/g, ' '); // Normalize whitespace
+  };
+
+  // Check if skill already exists (with normalization)
+  const isSkillDuplicate = (newSkill) => {
+    const normalizedNew = normalizeSkill(newSkill);
+    return formData.skills.some(
+      (existing) => normalizeSkill(existing) === normalizedNew
+    );
+  };
+
+  const handleAddSkill = (e) => {
+    if (e) e.preventDefault();
+    const trimmedSkill = skillInput.trim();
+
+    if (!trimmedSkill) {
+      return;
+    }
+
+    // Check for exact match
+    if (formData.skills.includes(trimmedSkill)) {
+      toast.error(`"${trimmedSkill}" is already in your skills.`);
+      return;
+    }
+
+    // Check for similar skills (normalized)
+    if (isSkillDuplicate(trimmedSkill)) {
+      const existingMatch = formData.skills.find(
+        (s) => normalizeSkill(s) === normalizeSkill(trimmedSkill)
+      );
+      toast.error(`Similar skill "${existingMatch}" already exists.`);
+      return;
+    }
+
+    handleInputChange("skills", [...formData.skills, trimmedSkill]);
+    setSkillInput("");
+    toast.success(`Added "${trimmedSkill}" to your skills.`);
+  };
+
+  const handleRemoveSkill = (skillToRemove) => {
+    handleInputChange(
+      "skills",
+      formData.skills.filter((skill) => skill !== skillToRemove)
+    );
   };
 
   useEffect(() => {
@@ -155,6 +228,10 @@ const UserProfile = () => {
       email: user?.email || "",
       avatar: user?.avatar || "",
       resume: user?.resume || "",
+      bio: user?.bio || "",
+      skills: user?.skills || [],
+      experience: user?.experience || [],
+      education: user?.education || [],
     };
 
     setProfileData(userData);
@@ -238,6 +315,73 @@ const UserProfile = () => {
                     disabled
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
                   />
+                </div>
+
+                {/* Professional Summary / Bio */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Professional Summary
+                  </label>
+                  <textarea
+                    value={formData.bio}
+                    onChange={(e) => handleInputChange("bio", e.target.value)}
+                    rows={4}
+                    placeholder="Brief summary of your experience and expertise..."
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
+                  />
+                </div>
+
+                {/* Skills */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Skills
+                  </label>
+                  <div className="flex gap-2 mb-3">
+                    <input
+                      type="text"
+                      value={skillInput}
+                      onChange={(e) => setSkillInput(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleAddSkill(e)}
+                      placeholder="Add a skill (e.g., React, Node.js)..."
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddSkill}
+                      className="px-5 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium"
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {formData.skills?.length > 0 ? (
+                      formData.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm flex items-center"
+                        >
+                          {skill}
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveSkill(skill)}
+                            className="ml-2 text-emerald-600 hover:text-emerald-800 font-bold"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-500">No skills added yet</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* AI Resume Parser */}
+                <div className="border-t border-gray-200 pt-6 mt-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Upload & Parse Resume with AI
+                  </h3>
+                  <ResumeUploadSection onParsedData={handleParsedData} />
                 </div>
 
                 {/* Resume */}
