@@ -12,16 +12,16 @@ import FilterContent from './components/FilterContent';
 import SearchHeader from './components/SearchHeader';
 
 const JobSeekerDashboard = () => {
-  const {user} = useAuth();
-  const[jobs, setJobs] = useState([]);
+  const { user } = useAuth();
+  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const[viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
-  const[showMobileFilters, setShowMobileFilters] = useState(false);
-  const[error, setError] = useState(null);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   //Filter states
-  const[filters, setFilters] = useState({
+  const [filters, setFilters] = useState({
     keyword: '',
     location: '',
     category: '',
@@ -34,46 +34,46 @@ const JobSeekerDashboard = () => {
   const [expandedSections, setExpandedSections] = useState({
     jobType: true,
     salary: true,
-    categories:true,
+    categories: true,
   });
 
   //Function to fetch jobs from API
-  const fetchJobs = async(filterParams={}) => {
-    try{
+  const fetchJobs = async (filterParams = {}) => {
+    try {
       setLoading(true);
       setError(null);
 
       //Build query params
       const params = new URLSearchParams();
 
-      if(filterParams.keyword){
+      if (filterParams.keyword) {
         params.append('keyword', filterParams.keyword);
       }
-      if(filterParams.location){
+      if (filterParams.location) {
         params.append('location', filterParams.location);
       }
-      if(filterParams.category){
+      if (filterParams.category) {
         params.append('category', filterParams.category);
       }
-      if(filterParams.minSalary){
+      if (filterParams.minSalary) {
         params.append('minSalary', filterParams.minSalary);
       }
-      if(filterParams.maxSalary){
+      if (filterParams.maxSalary) {
         params.append('maxSalary', filterParams.maxSalary);
       }
-      if(filterParams.type){
+      if (filterParams.type) {
         params.append('type', filterParams.type);
       }
-      if(user){
+      if (user) {
         params.append('userId', user?._id);
       }
 
       const response = await axiosInstance.get(
         `${API_PATHS.JOBS.GET_ALL_JOBS}?${params.toString()}`
       );
-      const jobsData = Array.isArray(response.data) ? response.data : response.data.jobs||[];
+      const jobsData = Array.isArray(response.data) ? response.data : response.data.jobs || [];
       setJobs(jobsData);
-    } catch (err){
+    } catch (err) {
       console.error('Error fetching jobs:', err);
       setError('Failed to load jobs. Please try again later.');
       setJobs([]);
@@ -97,35 +97,35 @@ const JobSeekerDashboard = () => {
       };
       //Only call API if there are meaningful filters
       const hasFilters = Object.values(apiFilters).some(
-        (value)=>
+        (value) =>
           value !== '' &&
           value !== false &&
           value !== null &&
           value !== undefined
       );
-      if(hasFilters){
+      if (hasFilters) {
         fetchJobs(apiFilters);
       } else {
         fetchJobs();  //Fetch all jobs if no filters
       }
     }, 500); //500ms debounce
     return () => clearTimeout(timeoutId);
-  }, [filters,user]);
+  }, [filters, user]);
 
-  const handleFilterChange = (key,value)=>{
-    setFilters((prev)=>({
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({
       ...prev,
-      [key]:value,
+      [key]: value,
     }));
   }
-  const toggleSection = (section)=>{
-    setExpandedSections((prev)=>({
+  const toggleSection = (section) => {
+    setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
   }
 
-  const clearAllFilters = ()=>{
+  const clearAllFilters = () => {
     setFilters({
       keyword: '',
       location: '',
@@ -139,18 +139,18 @@ const JobSeekerDashboard = () => {
   const MobileFilterOverlay = () => (
     <div className={`fixed inset-0 z-50 lg:hidden ${showMobileFilters ? '' : 'hidden'}`}
     >
-      <div 
-        onClick={()=>setShowMobileFilters(false)}
+      <div
+        onClick={() => setShowMobileFilters(false)}
         className="fixed inset-0 bg-black/50"
       />
       <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-xl">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h3 className="font-bold text-gray-900 text-lg">Filters</h3>
           <button
-            onClick={()=>setShowMobileFilters(false)}
+            onClick={() => setShowMobileFilters(false)}
             className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
           >
-            <X className="w-5 h-5"/>
+            <X className="w-5 h-5" />
           </button>
         </div>
         <div className="p-6 overflow-y-auto h-full pb-20">
@@ -166,9 +166,9 @@ const JobSeekerDashboard = () => {
     </div>
   )
 
-  const toggleSaveJob = async (jobId, isSaved) =>{
-    try{
-      if(isSaved){
+  const toggleSaveJob = async (jobId, isSaved) => {
+    try {
+      if (isSaved) {
         await axiosInstance.delete(API_PATHS.JOBS.UNSAVE_JOB(jobId));
         toast.success('Job removed from saved jobs');
       } else {
@@ -176,30 +176,30 @@ const JobSeekerDashboard = () => {
         toast.success('Job saved successfully');
       }
       fetchJobs();
-    }catch (err){
+    } catch (err) {
       console.error('Error toggling save job:', err);
       toast.error('Failed to update saved jobs. Please try again.');
     }
   };
-  const applyToJob = async(jobId) =>{
-    try{
+  const applyToJob = async (jobId) => {
+    try {
       await axiosInstance.post(API_PATHS.APPLICATIONS.APPLY_TO_JOB(jobId));
       toast.success('Applied to job successfully');
       fetchJobs();
-    } catch (err){
+    } catch (err) {
       console.error('Error applying to job:', err);
       const errMsg = err.response?.data?.message;
       toast.error(errMsg || 'Failed to apply to job. Please try again.');
     }
   }
 
-  if(jobs.length === 0 && loading){
-    return <LoadingSpinner/>;
+  if (jobs.length === 0 && loading) {
+    return <LoadingSpinner />;
   }
 
   return (
     <div className="bg-gradient-to-br from-emerald-50 via-white to-teal-50">
-      <Navbar/>
+      <Navbar />
 
       <div className="min-h-screen mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
@@ -240,44 +240,42 @@ const JobSeekerDashboard = () => {
                 <div className="flex items-center justify-between lg:justify-end gap-4">
                   {/*Mobile Filter Button */}
                   <button
-                    onClick={()=>setShowMobileFilters(true)}
+                    onClick={() => setShowMobileFilters(true)}
                     className="lg:hidden flex items-center gap-2 bg-white px-2 py-2 rounded-xl border border-gray-200 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    <Filter className="w-4 h-4"/>
-                      Filters
+                    <Filter className="w-4 h-4" />
+                    Filters
                   </button>
                   <div className="flex items-center gap-3 lg:gap-4">
                     <div className="flex items-center border border-gray-200 rounded-xl p-1 bg-white">
                       <button
-                        onClick={()=>setViewMode('grid')}
-                        className={`p-2 rounded-lg transition-colors ${
-                          viewMode==='grid' 
-                            ? 'bg-emerald-600 text-white shadow-sm' 
+                        onClick={() => setViewMode('grid')}
+                        className={`p-2 rounded-lg transition-colors ${viewMode === 'grid'
+                            ? 'bg-emerald-600 text-white shadow-sm'
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                           }`}
                       >
-                        <Grid className="w-4 h-4"/>
+                        <Grid className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={()=>setViewMode('list')}
-                        className={`p-2 rounded-lg transition-colors ${
-                          viewMode==='list' 
-                            ? 'bg-emerald-600 text-white shadow-sm' 
+                        onClick={() => setViewMode('list')}
+                        className={`p-2 rounded-lg transition-colors ${viewMode === 'list'
+                            ? 'bg-emerald-600 text-white shadow-sm'
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                        }`}
+                          }`}
                       >
-                        <List className="w-4 h-4"/>
+                        <List className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
 
-               {/* Job Grid */}
-               {jobs.length===0 ? (
+              {/* Job Grid */}
+              {jobs.length === 0 ? (
                 <div className="text-center py-16 lg:py-20 bg-white/60 backdrop-blur-xl rounded-2xl border border-white/20">
                   <div className="text-gray-400 mb-6">
-                    <Search className="w-16 h-16 mx-auto"/>
+                    <Search className="w-16 h-16 mx-auto" />
                   </div>
                   <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
                     No jobs found.
@@ -290,32 +288,43 @@ const JobSeekerDashboard = () => {
                     className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-colors"
                   >
                     Clear All Filters
-                    </button>
+                  </button>
                 </div>
-               ):(
+              ) : (
                 <>
-                  <div 
-                    className={viewMode==='grid'
+                  <div
+                    className={viewMode === 'grid'
                       ? 'grid grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-4 lg:gap-6'
                       : 'space-y-4 lg:space-y-6'}
                   >
-                    {jobs.map((job)=>(
-                      <JobCard
-                        key={job._id}
-                        job={job}
-                        onClick={()=>navigate(`/job/${job._id}`)}
-                        onToggleSave={()=>toggleSaveJob(job._id, job.isSaved)}
-                        onApply={()=>applyToJob(job._id)}
-                      />
-                    ))}
+                    {/* Sort jobs by match score if user has resume */}
+                    {[...jobs]
+                      .sort((a, b) => {
+                        // Only sort by match score if user has a resume
+                        if (user?.resume) {
+                          const scoreA = a.matchScore?.score || 0;
+                          const scoreB = b.matchScore?.score || 0;
+                          return scoreB - scoreA; // Descending order (highest first)
+                        }
+                        return 0; // Keep original order if no resume
+                      })
+                      .map((job) => (
+                        <JobCard
+                          key={job._id}
+                          job={job}
+                          onClick={() => navigate(`/job/${job._id}`)}
+                          onToggleSave={() => toggleSaveJob(job._id, job.isSaved)}
+                          onApply={() => applyToJob(job._id)}
+                        />
+                      ))}
                   </div>
                 </>
-               )}
+              )}
             </div>
           </div>
         </div>
         {/* Mobile Filter overlay */}
-        <MobileFilterOverlay/>
+        <MobileFilterOverlay />
       </div>
     </div>
   )

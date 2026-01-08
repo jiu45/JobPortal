@@ -381,7 +381,32 @@ const UserProfile = () => {
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Upload & Parse Resume with AI
                   </h3>
-                  <ResumeUploadSection onParsedData={handleParsedData} />
+                  <ResumeUploadSection
+                    onParsedData={handleParsedData}
+                    existingResume={formData.resume}
+                    onResumeUploaded={async (resumeUrl) => {
+                      // Update formData
+                      handleInputChange("resume", resumeUrl);
+
+                      // Auto-save to database
+                      try {
+                        const updatedData = { ...formData, resume: resumeUrl };
+                        const response = await axiosInstance.put(
+                          API_PATHS.AUTH.UPDATE_PROFILE,
+                          updatedData
+                        );
+
+                        if (response.status === 200) {
+                          setProfileData(updatedData);
+                          updateUser(updatedData);
+                          toast.success("Resume saved to profile!");
+                        }
+                      } catch (error) {
+                        console.error("Error saving resume to profile:", error);
+                        toast.error("Resume uploaded but failed to save to profile. Please click Save Changes.");
+                      }
+                    }}
+                  />
                 </div>
 
                 {/* Resume */}

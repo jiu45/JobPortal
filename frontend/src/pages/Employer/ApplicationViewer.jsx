@@ -95,9 +95,46 @@ const ApplicationViewer = () => {
     }, {});
   }, [applications, sortBy, sortOrder]);
 
-  const handleDownloadResume = (resumeUrl) => {
-    if (!resumeUrl) return;
-    window.open(resumeUrl, "_blank");
+  const handleDownloadResume = async (resumeUrl) => {
+    if (!resumeUrl) {
+      alert("No resume available for this applicant.");
+      return;
+    }
+
+    console.log("Attempting to download resume from:", resumeUrl);
+
+    try {
+      // Use axiosInstance for proper proxy handling
+      const response = await axiosInstance.get(resumeUrl, {
+        responseType: 'blob'
+      });
+
+      console.log("Response status:", response.status);
+      console.log("Response content-type:", response.headers['content-type']);
+
+      // Check content type to ensure it's not an HTML error page
+      const contentType = response.headers['content-type'];
+      if (contentType && contentType.includes('text/html')) {
+        throw new Error('Resume file not found on server');
+      }
+
+      const blob = response.data;
+
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = resumeUrl.split("/").pop() || "resume.pdf"; // Extract filename from URL
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading resume:", error);
+      alert(`Failed to download resume: ${error.message}`);
+    }
   };
 
   // 👇 callback nhận từ ApplicantProfilePreview
@@ -247,7 +284,12 @@ const ApplicationViewer = () => {
                                   application.applicant.resume
                                 )
                               }
-                              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                              disabled={!application.applicant.resume}
+                              className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${application.applicant.resume
+                                ? "bg-blue-600 text-white hover:bg-blue-700"
+                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                }`}
+                              title={application.applicant.resume ? "Download Resume" : "No resume available"}
                             >
                               <Download className="h-4 w-4" />
                               <span>Resume</span>

@@ -1,12 +1,26 @@
-import { useState } from "react";
-import { Upload, FileText, CheckCircle, AlertCircle, Loader } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Upload, FileText, CheckCircle, AlertCircle, Loader, Download, Trash2 } from "lucide-react";
 import { parseResume } from "../utils/aiService";
+import axiosInstance from "../utils/axiosInstance";
+import toast from "react-hot-toast";
 
-const ResumeUploadSection = ({ onParsedData }) => {
+const ResumeUploadSection = ({ onParsedData, existingResume, onResumeUploaded, onResumeDeleted }) => {
     const [file, setFile] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [parsing, setParsing] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [uploadedResumeUrl, setUploadedResumeUrl] = useState(existingResume || "");
+
+    console.log("ResumeUploadSection - existingResume prop:", existingResume);
+    console.log("ResumeUploadSection - uploadedResumeUrl state:", uploadedResumeUrl);
+
+    // Sync uploadedResumeUrl with existingResume prop changes
+    useEffect(() => {
+        if (existingResume) {
+            setUploadedResumeUrl(existingResume);
+        }
+    }, [existingResume]);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -32,17 +46,41 @@ const ResumeUploadSection = ({ onParsedData }) => {
         setSuccess(false);
     };
 
-    const handleUpload = async () => {
+    const handleUploadAndParse = async () => {
         if (!file) {
             setError("Please select a file first");
             return;
         }
 
         setUploading(true);
+        setParsing(false);
         setError("");
         setSuccess(false);
 
         try {
+            // Step 1: Upload the resume file to server
+            const uploadFormData = new FormData();
+            uploadFormData.append("resume", file);
+
+            const uploadResponse = await axiosInstance.post(
+                "/api/user/upload-resume",
+                uploadFormData,
+                { headers: { "Content-Type": "multipart/form-data" } }
+            );
+
+            const resumeUrl = uploadResponse.data.resumeUrl;
+            setUploadedResumeUrl(resumeUrl);
+
+            if (onResumeUploaded) {
+                onResumeUploaded(resumeUrl);
+            }
+
+            toast.success("Resume uploaded successfully!");
+
+            // Step 2: Parse the resume with AI
+            setParsing(true);
+            setUploading(false);
+
             const result = await parseResume(file);
 
             if (result.data) {
@@ -51,17 +89,109 @@ const ResumeUploadSection = ({ onParsedData }) => {
                 if (onParsedData) {
                     onParsedData(result.data);
                 }
+                toast.success("Resume parsed with AI!");
             }
         } catch (err) {
-            console.error("Error parsing resume:", err);
+            console.error("Error uploading/parsing resume:", err);
             setError(
                 err.response?.data?.message ||
-                "Failed to parse resume. Please try again."
+                "Failed to upload/parse resume. Please try again."
             );
         } finally {
             setUploading(false);
+            setParsing(false);
         }
     };
+
+    const handleDownload = async () => {
+        if (!uploadedResumeUrl) {
+            toast.error("No resume URL available");
+            return;
+        }
+
+        console.log("Attempting to download resume from:", uploadedResumeUrl);
+
+        try {
+            // Use axiosInstance for proper proxy handling
+            const response = await axiosInstance.get(uploadedResumeUrl, {
+                responseType: 'blob'
+            });
+
+            console.log("Response status:", response.status);
+            console.log("Response content-type:", response.headers['content-type']);
+
+            // Check content type
+            const contentType = response.headers['content-type'];
+            if (contentType && contentType.includes('text/html')) {
+                throw new Error('Resume file not found on server');
+            }
+
+            const blob = response.data;
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = uploadedResumeUrl.split("/").pop() || "resume.pdf";
+            document.body.appendChild(a);
+            a.click();
+
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            toast.success("Resume downloaded!");
+        } catch (error) {
+            console.error("Error downloading resume:", error);
+            toast.error(`Failed to download: ${error.message}`);
+        }
+    };
+
+    const getFilename = (url) => {
+        if (!url) return "resume.pdf";
+        const parts = url.split("/");
+        return parts[parts.length - 1].replace(/^\d+-/, ""); // Remove timestamp prefix
+    };
+
+    // If resume already uploaded, show compact view
+    if (uploadedResumeUrl && !file) {
+        return (
+            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                            <FileText className="w-5 h-5 text-emerald-600" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-gray-900">Resume Uploaded</p>
+                            <p className="text-xs text-gray-500">{getFilename(uploadedResumeUrl)}</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={handleDownload}
+                            className="p-2 rounded-lg hover:bg-emerald-100 transition-colors"
+                            title="Download Resume"
+                        >
+                            <Download className="w-5 h-5 text-emerald-600" />
+                        </button>
+                        <label
+                            htmlFor="resume-upload-replace"
+                            className="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                            title="Upload New Resume"
+                        >
+                            <Upload className="w-5 h-5 text-gray-500" />
+                            <input
+                                type="file"
+                                id="resume-upload-replace"
+                                accept=".pdf"
+                                onChange={handleFileChange}
+                                className="hidden"
+                            />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -73,7 +203,7 @@ const ResumeUploadSection = ({ onParsedData }) => {
                 {success && (
                     <div className="flex items-center text-green-600 text-sm">
                         <CheckCircle className="w-4 h-4 mr-1" />
-                        Parsed successfully!
+                        Uploaded & Parsed!
                     </div>
                 )}
             </div>
@@ -117,19 +247,24 @@ const ResumeUploadSection = ({ onParsedData }) => {
                 {/* Upload Button */}
                 {file && !success && (
                     <button
-                        onClick={handleUpload}
-                        disabled={uploading}
+                        onClick={handleUploadAndParse}
+                        disabled={uploading || parsing}
                         className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-lg font-medium hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     >
                         {uploading ? (
                             <>
                                 <Loader className="w-5 h-5 animate-spin mr-2" />
-                                Parsing Resume...
+                                Uploading Resume...
+                            </>
+                        ) : parsing ? (
+                            <>
+                                <Loader className="w-5 h-5 animate-spin mr-2" />
+                                Parsing with AI...
                             </>
                         ) : (
                             <>
                                 <Upload className="w-5 h-5 mr-2" />
-                                Parse with AI
+                                Upload & Parse with AI
                             </>
                         )}
                     </button>
@@ -138,7 +273,7 @@ const ResumeUploadSection = ({ onParsedData }) => {
                 {success && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                         <p className="text-sm text-green-700">
-                            ✅ Your resume has been parsed! Review the auto-filled information below and make any necessary adjustments.
+                            ✅ Your resume has been uploaded and parsed! Review the auto-filled information below.
                         </p>
                     </div>
                 )}
@@ -148,3 +283,4 @@ const ResumeUploadSection = ({ onParsedData }) => {
 };
 
 export default ResumeUploadSection;
+
