@@ -6,6 +6,8 @@ const {
     generateCoverLetter,
     calculateMatchScore,
     calculateAdvancedMatchScore,
+    startInterview,
+    getInterviewFeedback,
 } = require("../controllers/aiController");
 
 const router = express.Router();
@@ -30,5 +32,9 @@ router.post("/parse-resume", protect, upload.single("resume"), parseResume);
 router.post("/generate-cover-letter", protect, generateCoverLetter);
 router.post("/match-score", protect, calculateMatchScore);
 router.post("/advanced-match", protect, calculateAdvancedMatchScore);
+
+// Interview Routes
+router.post("/interview/start", protect, startInterview);
+router.post("/interview/feedback", protect, getInterviewFeedback);
 
 module.exports = router;

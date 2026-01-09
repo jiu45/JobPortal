@@ -295,9 +295,122 @@ Perform comprehensive analysis and return the JSON:`,
     }
 };
 
+/**
+ * Generate an interview question based on job role
+ * @param {string} jobRole - The job role (e.g., "Frontend Developer")
+ * @param {string} jobDescription - Optional job description for context
+ * @returns {Promise<object>} Generated question with category
+ */
+const generateInterviewQuestion = async (jobRole, jobDescription = "") => {
+    try {
+        const completion = await groq.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: `You are an experienced technical interviewer. Generate ONE relevant interview question for the given job role.
+
+Return format (JSON only):
+{
+  "question": "The interview question",
+  "category": "technical|behavioral|situational",
+  "difficulty": "easy|medium|hard",
+  "expectedTopics": ["topic1", "topic2", "topic3"],
+  "hints": "Brief hint about what a good answer should include"
+}
+
+Rules:
+- Generate challenging but fair questions
+- Focus on practical, real-world scenarios
+- For technical roles, include coding concepts, system design, or problem-solving
+- For non-technical roles, focus on behavioral and situational questions
+- Return ONLY valid JSON`,
+                },
+                {
+                    role: "user",
+                    content: `Job Role: ${jobRole}
+${jobDescription ? `Job Description: ${jobDescription}` : ""}
+
+Generate a relevant interview question for this position.`,
+                },
+            ],
+            model: "llama-3.3-70b-versatile",
+            temperature: 0.7,
+            max_tokens: 500,
+            response_format: { type: "json_object" },
+        });
+
+        return JSON.parse(completion.choices[0].message.content);
+    } catch (error) {
+        console.error("Error generating interview question:", error);
+        throw new Error("Failed to generate interview question: " + error.message);
+    }
+};
+
+/**
+ * Evaluate an interview answer and provide feedback
+ * @param {string} question - The interview question
+ * @param {string} answer - The user's answer
+ * @param {string} jobRole - The job role for context
+ * @returns {Promise<object>} Evaluation with score and feedback
+ */
+const evaluateInterviewAnswer = async (question, answer, jobRole = "") => {
+    try {
+        const completion = await groq.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: `You are an experienced technical interviewer evaluating a candidate's answer. Provide constructive, actionable feedback.
+
+Return format (JSON only):
+{
+  "score": 7,
+  "maxScore": 10,
+  "overallFeedback": "Clear, constructive summary of the answer quality",
+  "strengths": ["strength1", "strength2"],
+  "improvements": ["area1", "area2"],
+  "suggestedAnswer": "Brief example of an ideal answer",
+  "keyPointsCovered": ["point1", "point2"],
+  "keyPointsMissed": ["missed1", "missed2"],
+  "tips": "One specific tip for improvement"
+}
+
+Rules:
+- Be encouraging but honest
+- Score from 1-10 (1=poor, 5=average, 10=excellent)
+- Provide specific, actionable feedback
+- Highlight what was done well
+- Suggest improvements without being harsh
+- Return ONLY valid JSON`,
+                },
+                {
+                    role: "user",
+                    content: `Job Role: ${jobRole || "General Position"}
+
+Interview Question: ${question}
+
+Candidate's Answer: ${answer}
+
+Evaluate this answer and provide detailed feedback.`,
+                },
+            ],
+            model: "llama-3.3-70b-versatile",
+            temperature: 0.4,
+            max_tokens: 800,
+            response_format: { type: "json_object" },
+        });
+
+        return JSON.parse(completion.choices[0].message.content);
+    } catch (error) {
+        console.error("Error evaluating interview answer:", error);
+        throw new Error("Failed to evaluate interview answer: " + error.message);
+    }
+};
+
 module.exports = {
     parseResumeWithAI,
     generateCoverLetter,
     calculateJobMatch,
     calculateAdvancedMatch,
+    generateInterviewQuestion,
+    evaluateInterviewAnswer,
 };

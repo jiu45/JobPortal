@@ -4,6 +4,8 @@ const {
     generateCoverLetter,
     calculateJobMatch,
     calculateAdvancedMatch,
+    generateInterviewQuestion,
+    evaluateInterviewAnswer,
 } = require("../services/groqService");
 const User = require("../models/User");
 const Job = require("../models/Job");
@@ -229,6 +231,77 @@ exports.calculateAdvancedMatchScore = async (req, res) => {
         console.error("Error in calculateAdvancedMatchScore:", error);
         res.status(500).json({
             message: "Failed to calculate advanced match",
+            error: error.message,
+        });
+    }
+};
+
+/**
+ * Start Interview - Generate a question
+ * POST /api/ai/interview/start
+ * Protected route - requires authentication
+ */
+exports.startInterview = async (req, res) => {
+    try {
+        const { jobRole, jobDescription } = req.body;
+
+        if (!jobRole) {
+            return res.status(400).json({
+                message: "Job role is required",
+            });
+        }
+
+        // Generate interview question
+        const questionData = await generateInterviewQuestion(jobRole, jobDescription || "");
+
+        res.status(200).json({
+            message: "Interview question generated successfully",
+            data: {
+                jobRole,
+                ...questionData,
+            },
+        });
+    } catch (error) {
+        console.error("Error in startInterview:", error);
+        res.status(500).json({
+            message: "Failed to generate interview question",
+            error: error.message,
+        });
+    }
+};
+
+/**
+ * Get Interview Feedback - Evaluate answer
+ * POST /api/ai/interview/feedback
+ * Protected route - requires authentication
+ */
+exports.getInterviewFeedback = async (req, res) => {
+    try {
+        const { question, userAnswer, jobRole } = req.body;
+
+        if (!question || !userAnswer) {
+            return res.status(400).json({
+                message: "Question and answer are required",
+            });
+        }
+
+        if (userAnswer.trim().length < 10) {
+            return res.status(400).json({
+                message: "Answer is too short. Please provide a more detailed response.",
+            });
+        }
+
+        // Evaluate the answer
+        const feedback = await evaluateInterviewAnswer(question, userAnswer, jobRole || "");
+
+        res.status(200).json({
+            message: "Feedback generated successfully",
+            data: feedback,
+        });
+    } catch (error) {
+        console.error("Error in getInterviewFeedback:", error);
+        res.status(500).json({
+            message: "Failed to generate feedback",
             error: error.message,
         });
     }

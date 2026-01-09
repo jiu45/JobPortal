@@ -4,6 +4,7 @@ import {
   DollarSign,
   MapPin,
   Users,
+  Mic,
 } from "lucide-react";
 
 import moment from "moment";
@@ -17,6 +18,8 @@ import { useAuth } from "../../context/AuthContext";
 import ApplicationForm from "./ApplicationForm";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
+import { normalizeImageUrl } from "../../utils/helper";
+import InterviewRoom from "../../components/InterviewRoom";
 
 const JobDetails = () => {
 
@@ -24,6 +27,7 @@ const JobDetails = () => {
   const { jobId } = useParams();
   const [jobDetails, setJobDetails] = useState(null);
   const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [showInterviewRoom, setShowInterviewRoom] = useState(false);
 
   const getJobDetailsById = async () => {
     try {
@@ -69,9 +73,9 @@ const JobDetails = () => {
             <div className="relative px-6 pb-8 border-b border-gray-100">
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
-                  {jobDetails?.company?.companyLogo ? (
+                  {normalizeImageUrl(jobDetails?.company?.companyLogo) ? (
                     <img
-                      src={jobDetails.company.companyLogo}
+                      src={normalizeImageUrl(jobDetails.company.companyLogo)}
                       alt="Company Logo"
                       className="h-20 w-20 object-cover rounded-2xl border-4 border-white/20 shadow-lg"
                     />
@@ -105,6 +109,14 @@ const JobDetails = () => {
                       Apply Now
                     </button>
                   )}
+                  {/* Practice Interview Button */}
+                  <button
+                    className="flex items-center gap-2 bg-gradient-to-r from-indigo-50 to-purple-50 text-sm text-indigo-700 hover:text-white px-4 py-2.5 rounded-xl hover:from-indigo-500 hover:to-purple-600 transition-all duration-200 font-semibold transform hover:-translate-y-0.5 border border-indigo-200 hover:border-transparent"
+                    onClick={() => setShowInterviewRoom(true)}
+                  >
+                    <Mic className="w-4 h-4" />
+                    Practice Interview
+                  </button>
                 </div>
                 {/* Tags */}
                 <div className="flex flex-wrap gap-3">
@@ -201,6 +213,19 @@ const JobDetails = () => {
             setShowApplicationForm(false);
           }}
         />
+      )}
+
+      {/* Interview Room Modal */}
+      {showInterviewRoom && jobDetails && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <InterviewRoom
+              jobRole={jobDetails.title}
+              jobDescription={jobDetails.description}
+              onClose={() => setShowInterviewRoom(false)}
+            />
+          </div>
+        </div>
       )}
     </div>
   )
